@@ -1,0 +1,11 @@
+{
+    "site_title": "VladHim Online Store",
+    "login": "Login",
+    "logout": "Logout",
+    "catalog": "Catalog",
+    "add_product": "Add Product",
+    "price": "Price",
+    "export_orders": "Export Orders",
+    "dashboard": "Dashboard",
+    "search_placeholder": "Search..."
+  }

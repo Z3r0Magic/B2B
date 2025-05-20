@@ -1,0 +1,12 @@
+
+{
+    "site_title": "Интернет-магазин ВладХим",
+    "login": "Вход",
+    "logout": "Выход",
+    "catalog": "Каталог",
+    "add_product": "Добавить товар",
+    "price": "Цена",
+    "export_orders": "Экспорт заказов",
+    "dashboard": "Панель аналитики",
+    "search_placeholder": "Поиск..."
+  }
