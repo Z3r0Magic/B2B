@@ -1,6 +1,13 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+?>
+
+<?php
 require 'includes/lang.php';
-session_start();
+require 'includes/auth.php';
+// session_start();
 $error='';
 $users = json_decode(file_get_contents('users.json'),true);
 if ($_SERVER['REQUEST_METHOD']==='POST') {
