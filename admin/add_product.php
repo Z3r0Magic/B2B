@@ -30,7 +30,7 @@ $categories = $pdo->query("SELECT * FROM categories")->fetchAll();
 <head>
   <meta charset="UTF-8">
   <title><?= t('manage_products') ?></title>
-  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
   <?php include __DIR__ . '/../partials/navbar.php'; ?>
@@ -120,6 +120,6 @@ $categories = $pdo->query("SELECT * FROM categories")->fetchAll();
     </form>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> -->
 </body>
 </html>

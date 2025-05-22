@@ -34,12 +34,16 @@
                 <?= t('cart') ?>
                 <span class="badge bg-danger">
                   <?php
-                    $stmt = $pdo->prepare("SELECT SUM(quantity) FROM cart WHERE user_id = ?");
+                    $stmt = $pdo->prepare("SELECT COALESCE(SUM(quantity), 0) FROM cart WHERE user_id = ?");
                     $stmt->execute([$_SESSION['user']['id']]);
-                    echo $stmt->fetchColumn() ?? 0;
+                    echo $stmt->fetchColumn();
                   ?>
                 </span>
               </a>
+            </li>
+            <!-- Кнопка "Личный кабинет" -->
+            <li class="nav-item">
+              <a class="nav-link" href="account.php"><?= t('my_account') ?></a>
             </li>
           <?php endif; ?>
 
@@ -49,7 +53,13 @@
               <?= htmlspecialchars($_SESSION['user']['username']) ?>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="logout.php"><?= t('logout') ?></a></li>
+              <li><a class="dropdown-item" href="/logout.php"><?= t('logout') ?></a></li>
+              <!-- Админ-меню (только для admin) -->
+              <?php if ($_SESSION['user']['role'] === 'admin'): ?>
+                <li><a class="dropdown-item" href="/admin/dashboard.php"><?= t('admin_panel') ?></a></li>
+                <li><a class="dropdown-item" href="/admin/manage_users.php"><?= t('manage_users') ?></a></li>
+                <li><a class="dropdown-item" href="/admin/add_product.php"><?= t('manage_products') ?></a></li>
+              <?php endif; ?>
             </ul>
           </li>
         <?php else: ?>

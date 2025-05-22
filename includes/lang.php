@@ -1,7 +1,7 @@
 <?php
-session_start();
+// session_start();
 
-$lang = $_GET['lang'] ?? $_SESSION['lang'] ?? 'en';
+$lang = $_GET['lang'] ?? $_SESSION['lang'] ?? 'ru';
 $_SESSION['lang'] = $lang;
 
 $translations = [
@@ -45,6 +45,14 @@ $translations = [
         'total' => 'Total',
         'checkout' => 'Checkout',
         'not_enough_stock' => 'Not enough stock',
+        'my_account' => 'My Account',
+        'order_history' => 'Order History',
+        'no_orders' => 'You have no orders yet',
+        'order' => 'Order',
+        'products' => 'Products',
+        'processing' => 'Processing',
+        'completed' => 'Completed',
+        'canceled' => 'Canceled',
         
         
     ],
@@ -88,6 +96,14 @@ $translations = [
         'total' => 'Итого',
         'checkout' => 'Оформить заказ',
         'not_enough_stock' => 'Недостаточно товара',
+        'my_account' => 'Личный кабинет',
+        'order_history' => 'История заказов',
+        'no_orders' => 'У вас пока нет заказов',
+        'order' => 'Заказ',
+        'products' => 'Товары',
+        'processing' => 'В обработке',
+        'completed' => 'Завершен',
+        'canceled' => 'Отменен'
     ]
 ];
 

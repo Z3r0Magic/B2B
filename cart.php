@@ -1,4 +1,13 @@
+
+
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 require_once 'includes/auth.php';
 require_once 'includes/lang.php';
 require_once 'includes/db.php';
@@ -31,7 +40,13 @@ $cartItems = $stmt->fetchAll();
 <head>
   <meta charset="UTF-8">
   <title><?= t('cart') ?></title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .card-img-top {
+      height: 200px;
+      object-fit: contain;
+    }
+  </style>
 </head>
 <body>
   <?php include 'partials/navbar.php'; ?>
@@ -43,67 +58,80 @@ $cartItems = $stmt->fetchAll();
       <div class="alert alert-info"><?= t('cart_empty') ?></div>
     <?php else: ?>
       <div class="row">
-        <div class="col-md-8">
-          <?php foreach ($cartItems as $item): ?>
-            <div class="card mb-3">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img 
-                    src="/uploads/<?= htmlspecialchars($item['image_path']) ?>" 
-                    class="img-fluid rounded-start" 
-                    alt="<?= htmlspecialchars($item['title']) ?>"
-                  >
+        <?php foreach ($cartItems as $item): ?>
+          <div class="col-md-4 mb-4">
+            <div class="card h-100">
+              <?php if (!empty($item['image_path'])): ?>
+                <img src="<?= htmlspecialchars($item['image_path']) ?>" 
+                     class="card-img-top" 
+                     alt="<?= htmlspecialchars($item['title']) ?>">
+              <?php else: ?>
+                <div class="card-img-top bg-light d-flex align-items-center justify-content-center">
+                  <span class="text-muted"><?= t('no_image') ?></span>
                 </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h5 class="card-title"><?= htmlspecialchars($item['title']) ?></h5>
-                    <p class="card-text">
-                      <?= t('price') ?>: $<?= number_format($item['wholesale_price'], 2) ?>
-                    </p>
-                    <form action="cart_update.php" method="post" class="d-inline">
-                      <input type="hidden" name="product_id" value="<?= $item['product_id'] ?>">
-                      <input 
-                        type="number" 
-                        name="quantity" 
-                        value="<?= $item['quantity'] ?>" 
-                        min="1" 
-                        max="<?= $item['stock'] ?>"
-                        class="form-control d-inline w-25"
-                      >
-                      <button type="submit" class="btn btn-sm btn-outline-secondary">
-                        <?= t('update') ?>
-                      </button>
-                    </form>
-                    <a 
-                      href="cart_remove.php?product_id=<?= $item['product_id'] ?>" 
-                      class="btn btn-sm btn-danger"
-                    >
-                      <?= t('remove') ?>
-                    </a>
-                  </div>
+              <?php endif; ?>
+
+              <div class="card-body">
+                <h5 class="card-title"><?= htmlspecialchars($item['title']) ?></h5>
+                <div class="card-text">
+                  <p class="mb-1">
+                    <strong><?= t('price') ?>:</strong> 
+                    <?= htmlspecialchars($item['wholesale_price']) ?> ₽
+                  </p>
+                  <p class="mb-1">
+                    <strong><?= t('quantity') ?>:</strong> 
+                    <?= htmlspecialchars($item['quantity']) ?>
+                  </p>
+                  <p class="mb-1 <?= $item['stock'] < $item['quantity'] ? 'text-danger' : '' ?>">
+                    <strong><?= t('stock') ?>:</strong> 
+                    <?= htmlspecialchars($item['stock']) ?>
+                  </p>
                 </div>
               </div>
-            </div>
-          <?php endforeach; ?>
-        </div>
-        
-        <div class="col-md-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title"><?= t('total') ?></h5>
-              <?php
-                $total = 0;
-                foreach ($cartItems as $item) {
-                  $total += $item['wholesale_price'] * $item['quantity'];
-                }
-              ?>
-              <p class="fs-4">$<?= number_format($total, 2) ?></p>
-              <a href="checkout.php" class="btn btn-success w-100"><?= t('checkout') ?></a>
+
+              <div class="card-footer bg-white">
+                <form action="update_cart.php" method="POST">
+                  <input type="hidden" name="cart_id" value="<?= $item['id'] ?>">
+                  <div class="input-group">
+                    <input type="number" 
+                           name="quantity" 
+                           value="<?= $item['quantity'] ?>" 
+                           min="1" 
+                           max="<?= $item['stock'] ?>" 
+                           class="form-control">
+                    <button type="submit" class="btn btn-primary"><?= t('update') ?></button>
+                  </div>
+                </form>
+                <a href="remove_from_cart.php?id=<?= $item['id'] ?>" 
+                   class="btn btn-danger mt-2 w-100">
+                  <?= t('remove') ?>
+                </a>
+              </div>
             </div>
           </div>
-        </div>
+        <?php endforeach; ?>
+      </div>
+
+      <div class="mt-4 p-3 bg-light rounded">
+        <h4 class="mb-3"><?= t('total') ?>:</h4>
+        <p class="fs-5">
+          <?= t('total_items') ?>: <?= count($cartItems) ?><br>
+          <?= t('total_sum') ?>: 
+          <?php 
+            $total = array_sum(array_map(
+        function ($item) { 
+          return $item['wholesale_price'] * $item['quantity']; 
+        }, // ← Запятая после функции
+        $cartItems
+      ));
+      echo $total;
+          ?> ₽
+        </p>
+        <a href="checkout.php" class="btn btn-success btn-lg"><?= t('checkout') ?></a>
       </div>
     <?php endif; ?>
   </div>
+
+  <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> -->
 </body>
 </html>
