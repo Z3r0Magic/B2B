@@ -7,9 +7,9 @@ require_once 'includes/db.php';
 <html lang="<?= $lang ?>">
 <head>
   <meta charset="UTF-8">
-  <base href="/"> <!-- Исправленный тег base -->
+  <base href="/B2B/"> <!-- Укажите ваш базовый путь -->
   <title><?= t('site_title') ?></title>
-  <link href="/css/style.css" rel="stylesheet"> <!-- Абсолютный путь -->
+  <link href="/css/style.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -19,6 +19,6 @@ require_once 'includes/db.php';
     <p><?= t('welcome_message') ?></p>
     <a class="btn btn-primary" href="/catalog.php"><?= t('catalog') ?></a>
   </div>
-  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
