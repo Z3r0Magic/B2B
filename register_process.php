@@ -28,16 +28,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($stmt->fetchColumn()) {
             throw new Exception(t('username_taken'));
         }
+        // Проверка телефона
+        $phone = trim($_POST['phone']);
+        if (empty($phone)) {
+            throw new Exception(t('phone_required'));
+}
 
         // Хеширование пароля
         $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
         // Сохранение в БД
         $stmt = $pdo->prepare("
-            INSERT INTO users (username, password_hash, role) 
-            VALUES (?, ?, 'user')
+            INSERT INTO users (username, password_hash, role, phone) 
+            VALUES (?, ?, 'user', ?)
         ");
-        $stmt->execute([$username, $passwordHash]);
+        $stmt->execute([$username, $passwordHash, $phone]);
 
         header('Location: login.php?success=1');
         

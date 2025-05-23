@@ -37,6 +37,7 @@ $users = $stmt->fetchAll();
           <th>ID</th>
           <th><?= t('username') ?></th>
           <th><?= t('role') ?></th>
+          <th><?= t('phone') ?></th>
           <th><?= t('actions') ?></th>
         </tr>
       </thead>
@@ -46,11 +47,12 @@ $users = $stmt->fetchAll();
             <td><?= $user['id'] ?></td>
             <td><?= htmlspecialchars($user['username']) ?></td>
             <td><?= $user['role'] ?></td>
+            <td><?= $user['phone'] ?></td>
             <td>
               <?php if ($user['role'] === 'editor'): ?>
                 <a href="?delete_user=<?= $user['id'] ?>" class="btn btn-danger btn-sm"><?= t('delete') ?></a>
               <?php else: ?>
-                <a href="?promote=<?= $user['id'] ?>" class="btn btn-success btn-sm"><?= t('promote_to_editor') ?></a>
+                <a href="process_user.php?promote=<?= $user['id'] ?>" class="btn btn-success btn-sm"><?= t('promote_to_editor') ?></a>
               <?php endif; ?>
             </td>
           </tr>
@@ -68,6 +70,10 @@ $users = $stmt->fetchAll();
       <div class="mb-3">
         <label class="form-label"><?= t('password') ?></label>
         <input type="password" name="password" class="form-control" required>
+      </div>
+      <div class="mb-3">
+          <label class="form-label"><?= t('phone') ?></label>
+          <input type="tel" name="phone" class="form-control" required>
       </div>
       <button type="submit" class="btn btn-primary"><?= t('add_editor') ?></button>
     </form>

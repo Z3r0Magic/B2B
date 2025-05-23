@@ -3,7 +3,7 @@ require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/lang.php';
 require_once __DIR__ . '/../includes/db.php';
 
-restrictAccess('admin');
+restrictAccess(['admin', 'editor']); // Разрешить доступ админам и редакторам
 
 // Удаление товара
 if (isset($_GET['delete_product'])) {
@@ -48,6 +48,7 @@ $categories = $pdo->query("SELECT * FROM categories")->fetchAll();
           <th><?= t('retail_price') ?></th>
           <th><?= t('quantity_per_box') ?></th>
           <th><?= t('category') ?></th>
+          <th><?= t('stock') ?></th>
           <th><?= t('actions') ?></th>
         </tr>
       </thead>
@@ -61,14 +62,139 @@ $categories = $pdo->query("SELECT * FROM categories")->fetchAll();
             <td>$<?= number_format($product['retail_price'], 2) ?></td>
             <td><?= $product['quantity_per_box'] ?></td>
             <td><?= htmlspecialchars($product['category_name']) ?></td>
+            <td><?= htmlspecialchars($product['stock']) ?></td>
             <td>
+              <a href="?edit_product=<?= $product['id'] ?>" class="btn btn-warning btn-sm"><?= t('edit') ?></a>
               <a href="?delete_product=<?= $product['id'] ?>" class="btn btn-danger btn-sm"><?= t('delete') ?></a>
             </td>
           </tr>
         <?php endforeach; ?>
       </tbody>
     </table>
+      <!--  -->
+    <?php if (isset($_GET['edit_product'])): ?>
+    <?php
+    $editId = (int)$_GET['edit_product'];
+    $stmt = $pdo->prepare("SELECT * FROM products WHERE id = ?");
+    $stmt->execute([$editId]);
+    $editProduct = $stmt->fetch();
+    ?>
 
+    <h3 class="mt-5"><?= t('edit_product') ?></h3>
+    <form action="process_product.php" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="product_id" value="<?= $editProduct['id'] ?>">
+        
+        <!-- Все поля формы -->
+        <div class="mb-3">
+            <label class="form-label"><?= t('title') ?></label>
+            <input 
+                type="text" 
+                name="title" 
+                class="form-control" 
+                value="<?= htmlspecialchars($editProduct['title']) ?>" 
+                required
+            >
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label"><?= t('article') ?></label>
+            <input 
+                type="text" 
+                name="article" 
+                class="form-control" 
+                value="<?= htmlspecialchars($editProduct['article']) ?>" 
+                required
+            >
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label"><?= t('wholesale_price') ?></label>
+            <input 
+                type="number" 
+                step="0.01" 
+                name="wholesale_price" 
+                class="form-control" 
+                value="<?= htmlspecialchars($editProduct['wholesale_price']) ?>" 
+                required
+            >
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label"><?= t('retail_price') ?></label>
+            <input 
+                type="number" 
+                step="0.01" 
+                name="retail_price" 
+                class="form-control" 
+                value="<?= htmlspecialchars($editProduct['retail_price']) ?>" 
+                required
+            >
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label"><?= t('quantity_per_box') ?></label>
+            <input 
+                type="number" 
+                name="quantity_per_box" 
+                class="form-control" 
+                value="<?= htmlspecialchars($editProduct['quantity_per_box']) ?>" 
+                required
+            >
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label"><?= t('stock') ?></label>
+            <input 
+                type="number" 
+                name="stock" 
+                class="form-control" 
+                value="<?= htmlspecialchars($editProduct['stock']) ?>" 
+                min="0" 
+                required
+            >
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label"><?= t('category') ?></label>
+            <select name="category_id" class="form-select" required>
+                <?php foreach ($categories as $category): ?>
+                    <option 
+                        value="<?= $category['id'] ?>"
+                        <?= $category['id'] == $editProduct['category_id'] ? 'selected' : '' ?>
+                    >
+                        <?= htmlspecialchars($category['name']) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label"><?= t('description') ?></label>
+            <textarea 
+                name="description" 
+                class="form-control" 
+                rows="3"
+            ><?= htmlspecialchars($editProduct['description']) ?></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label"><?= t('image') ?></label>
+            <input type="file" name="image" class="form-control" accept="image/*">
+            <?php if ($editProduct['image_path']): ?>
+                <small class="text-muted">
+                    <?= t('current_image') ?>: 
+                    <a href="../uploads/<?= $editProduct['image_path'] ?>" target="_blank">
+                        <?= $editProduct['image_path'] ?>
+                    </a>
+                </small>
+            <?php endif; ?>
+        </div>
+
+        <button type="submit" name="update" class="btn btn-primary"><?= t('update_product') ?></button>
+        <a href="add_product.php" class="btn btn-secondary"><?= t('cancel') ?></a>
+    </form>
+<?php endif; ?>
+<!--  -->
     <!-- Форма добавления товара -->
     <h3 class="mt-5"><?= t('add_product') ?></h3>
     <form action="process_product.php" method="post" enctype="multipart/form-data">
@@ -112,13 +238,27 @@ $categories = $pdo->query("SELECT * FROM categories")->fetchAll();
       </div>
 
       <div class="mb-3">
+        <label class="form-label"><?= t('stock') ?></label>
+        <input 
+        type="number" 
+        name="stock" 
+        class="form-control" 
+        value="0" 
+        min="0" 
+        required>
+      </div>
+
+      <div class="mb-3">
         <label class="form-label"><?= t('image') ?></label>
         <input type="file" name="image" class="form-control" accept="image/*" required>
       </div>
+      
+      
 
       <button type="submit" class="btn btn-primary"><?= t('add_product') ?></button>
     </form>
   </div>
+  
 
   <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> -->
 </body>

@@ -22,9 +22,15 @@ function login($username, $password) {
     return false;
 }
 // Проверка роли
-function restrictAccess($requiredRole) {
-    if ($_SESSION['user']['role'] !== $requiredRole) {
-        header('Location: /login.php');
+function restrictAccess($allowedRoles) {
+    if (!isset($_SESSION['user'])) {
+        header('Location: login.php');
+        exit;
+    }
+
+    // Проверяем, входит ли роль пользователя в разрешенные
+    if (!in_array($_SESSION['user']['role'], (array)$allowedRoles)) {
+        header('Location: /403.php'); // Страница "Доступ запрещен"
         exit;
     }
 }

@@ -32,7 +32,7 @@ require 'includes/auth.php';
   </form>
   <p class="mt-3"><?= t('no_account') ?> <a href="register.php"><?= t('register') ?></a></p>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> -->
 </body>
 </html>
 

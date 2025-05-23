@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 header('Location: admin/dashboard.php');
                 break;
             case 'editor':
-                header('Location: editor/dashboard.php');
+                header('Location: admin/add_product.php'); // Исправленный путь
                 break;
             default:
                 header('Location: index.php');

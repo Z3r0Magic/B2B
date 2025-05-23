@@ -37,7 +37,7 @@ if (!$product) {
     <div class="row">
       <div class="col-md-6">
         <img 
-          src="/uploads/<?= htmlspecialchars($product['image_path']) ?>" 
+          src="uploads/<?= htmlspecialchars($product['image_path']) ?>"
           class="img-fluid rounded"
           alt="<?= htmlspecialchars($product['title']) ?>"
         >

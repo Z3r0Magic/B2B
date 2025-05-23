@@ -31,10 +31,20 @@ require_once 'includes/db.php';
         <label class="form-label"><?= t('confirm_password') ?></label>
         <input type="password" name="confirm_password" class="form-control" required>
       </div>
+      <div class="mb-3">
+        <label class="form-label"><?= t('phone') ?></label>
+        <input 
+            type="tel" 
+            name="phone" 
+            class="form-control" 
+            pattern="\+?[0-9\s\-]+" 
+            placeholder="+7 (XXX) XXX-XX-XX" 
+            required>
+        </div>
       <button type="submit" class="btn btn-primary"><?= t('register') ?></button>
     </form>
     <p class="mt-3"><?= t('already_have_account') ?> <a href="login.php"><?= t('login') ?></a></p>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> -->
 </body>
 </html>

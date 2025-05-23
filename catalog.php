@@ -37,7 +37,7 @@ $products = $stmt->fetchAll();
         <div class="col">
           <div class="card h-100 product-card">
             <img 
-              src="/uploads/<?= htmlspecialchars($product['image_path']) ?>" 
+              src="uploads/<?= htmlspecialchars($product['image_path']) ?>"
               class="card-img-top" 
               alt="<?= htmlspecialchars($product['title']) ?>"
               style="height: 200px; object-fit: cover"

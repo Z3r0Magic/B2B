@@ -53,6 +53,23 @@ $translations = [
         'processing' => 'Processing',
         'completed' => 'Completed',
         'canceled' => 'Canceled',
+        'edit' => 'Edit',
+        'edit_product' => 'Edit Product',
+        'update_product' => 'Update Product',
+        'current_image' => 'Current Image',
+        'cancel' => 'Cancel',
+        'phone' => 'Phone',
+        'phone_required' => 'Phone is required',
+        'manage_orders' => 'Manage Orders',
+        'customer' => 'Customer',
+        'date' => 'Date',
+        'details' => 'Details',
+        'management' => 'Management',
+        'error_403' => '403 Forbidden',
+        'access_denied' => 'Access Denied',
+        'access_denied_description' => 'You do not have permission to view this page.',
+        'back_to_home' => 'Back to Home',    
+
         
         
     ],
@@ -103,7 +120,23 @@ $translations = [
         'products' => 'Товары',
         'processing' => 'В обработке',
         'completed' => 'Завершен',
-        'canceled' => 'Отменен'
+        'canceled' => 'Отменен',
+        'edit' => 'Редактировать',
+        'edit_product' => 'Редактировать товар',
+        'update_product' => 'Обновить товар',
+        'current_image' => 'Текущее изображение',
+        'cancel' => 'Отмена',
+        'phone' => 'Телефон',
+        'phone_required' => 'Телефон обязателен',
+        'manage_orders' => 'Управление заказами',
+        'customer' => 'Покупатель',
+        'date' => 'Дата',
+        'details' => 'Подробности',
+        'management' => 'Управление',
+        'error_403' => '403 Запрещено',
+        'access_denied' => 'Доступ запрещен',
+        'access_denied_description' => 'У вас нет прав для просмотра этой страницы.',
+        'back_to_home' => 'На главную',
     ]
 ];
 
