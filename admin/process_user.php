@@ -43,6 +43,18 @@ try {
         header('Location: manage_users.php?success=' . urlencode(t('editor_added')));
         exit;
     }
+    if (isset($_GET['demote'])) {
+    $userId = (int)$_GET['demote'];
+    $stmt = $pdo->prepare("UPDATE users SET role = 'user' WHERE id = ? AND role = 'editor'");
+    $stmt->execute([$userId]);
+    
+    if ($stmt->rowCount() === 0) {
+        throw new Exception(t('user_not_found_or_not_editor'));
+    }
+    
+    header('Location: manage_users.php?success=' . urlencode(t('user_demoted')));
+    exit;
+}
 } catch (Exception $e) {
     header('Location: manage_users.php?error=' . urlencode($e->getMessage()));
     exit;

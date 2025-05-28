@@ -1,10 +1,4 @@
-
-
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -18,18 +12,21 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'user') {
     exit;
 }
 
-// Получение товаров в корзине
+// Исправленный SQL-запрос (добавлена запятая)
 $stmt = $pdo->prepare("
     SELECT 
-      cart.id,
-      cart.quantity,
-      products.id AS product_id,
-      products.title,
-      products.wholesale_price,
-      products.image_path,
-      products.stock
+        cart.id,
+        cart.quantity,
+        products.id AS product_id,
+        products.title,
+        products.wholesale_price,
+        products.image_path,
+        products.stock,
+        products.quantity_per_box, -- ЗАПЯТАЯ ДОБАВЛЕНА
+        products.article
     FROM cart
-    LEFT JOIN products ON cart.product_id = products.id
+    LEFT JOIN products 
+        ON cart.product_id = products.id
     WHERE cart.user_id = ?
 ");
 $stmt->execute([$_SESSION['user']['id']]);
@@ -62,7 +59,7 @@ $cartItems = $stmt->fetchAll();
           <div class="col-md-4 mb-4">
             <div class="card h-100">
               <?php if (!empty($item['image_path'])): ?>
-                <img src="<?= htmlspecialchars($item['image_path']) ?>" 
+                <img src="/uploads/<?= htmlspecialchars($item['image_path']) ?>" 
                      class="card-img-top" 
                      alt="<?= htmlspecialchars($item['title']) ?>">
               <?php else: ?>
@@ -79,8 +76,16 @@ $cartItems = $stmt->fetchAll();
                     <?= htmlspecialchars($item['wholesale_price']) ?> ₽
                   </p>
                   <p class="mb-1">
+                    <strong><?= t('article') ?>:</strong> 
+                    <?= htmlspecialchars($item['article'] ?? 'N/A') ?> <!-- Убрано ₽, добавлена проверка -->
+                  </p>
+                  <p class="mb-1">
                     <strong><?= t('quantity') ?>:</strong> 
-                    <?= htmlspecialchars($item['quantity']) ?>
+                    <?= htmlspecialchars($item['quantity']) ?> 
+                  </p>
+                  <p class="mb-1">
+                    <strong><?= t('per_boxs') ?>:</strong> 
+                    <?= htmlspecialchars($item['quantity_per_box']) ?> 
                   </p>
                   <p class="mb-1 <?= $item['stock'] < $item['quantity'] ? 'text-danger' : '' ?>">
                     <strong><?= t('stock') ?>:</strong> 
@@ -114,19 +119,29 @@ $cartItems = $stmt->fetchAll();
 
       <div class="mt-4 p-3 bg-light rounded">
         <h4 class="mb-3"><?= t('total') ?>:</h4>
-        <p class="fs-5">
-          <?= t('total_items') ?>: <?= count($cartItems) ?><br>
-          <?= t('total_sum') ?>: 
-          <?php 
-            $total = array_sum(array_map(
-        function ($item) { 
-          return $item['wholesale_price'] * $item['quantity']; 
-        }, // ← Запятая после функции
-        $cartItems
-      ));
-      echo $total;
-          ?> ₽
-        </p>
+       <p class="fs-5">
+        <?= t('total_items') ?>: 
+        <?php 
+          $totalItems = array_sum(array_map(
+            function ($item) { 
+              return $item['quantity'] * $item['quantity_per_box']; 
+            }, 
+            $cartItems
+          ));
+          echo $totalItems;
+        ?> (<?= htmlspecialchars($item['quantity'])  ?> <?= t('boxes') ?>)<br>
+        
+        <?= t('total_sum') ?>: 
+        <?php 
+          $total = array_sum(array_map(
+            function ($item) { 
+              return $item['wholesale_price'] * $item['quantity']; 
+            }, 
+            $cartItems
+          ));
+          echo $total;
+        ?> ₽
+      </p>
         <a href="checkout.php" class="btn btn-success btn-lg"><?= t('checkout') ?></a>
       </div>
     <?php endif; ?>

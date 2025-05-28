@@ -27,32 +27,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Обработка изображения
-        $fileName = null;
+        $fileName = $_POST['old_image'] ?? null;
         $uploadDir = __DIR__ . '/../uploads/';
 
-        if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0777, true);
-        }
-
-        // Если есть новое изображение
         if (!empty($_FILES['image']['name'])) {
-            $fileName = uniqid() . '_' . basename($_FILES['image']['name']);
-            $targetPath = $uploadDir . $fileName;
-
-            if (!move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
-                throw new Exception(t('upload_error'));
-            }
-
-            // Удаляем старое изображение при обновлении
+            // Удаляем старое изображение, если оно есть
             if ($isUpdate && !empty($_POST['old_image'])) {
                 $oldImagePath = $uploadDir . $_POST['old_image'];
                 if (file_exists($oldImagePath)) {
                     unlink($oldImagePath);
                 }
             }
-        } elseif ($isUpdate) {
-            // Сохраняем старое изображение
-            $fileName = $_POST['old_image'];
+
+            // Загружаем новое изображение
+            $fileName = uniqid() . '_' . basename($_FILES['image']['name']);
+            $targetPath = $uploadDir . $fileName;
+
+            if (!move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
+                throw new Exception(t('upload_error'));
+            }
         }
 
         // Подготовка данных
@@ -68,8 +61,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_POST['stock']
         ];
 
-        // SQL-запрос
         if ($isUpdate) {
+            $data[] = $productId;
             $query = "
                 UPDATE products SET
                     title = ?,
@@ -83,7 +76,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     stock = ?
                 WHERE id = ?
             ";
-            $data[] = $productId; // Добавляем ID для WHERE
         } else {
             $query = "
                 INSERT INTO products (
@@ -93,17 +85,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ";
         }
 
-        // Выполнение запроса
         $stmt = $pdo->prepare($query);
         $stmt->execute($data);
 
-        // Перенаправление
         $message = $isUpdate ? 'product_updated' : 'product_added';
         header("Location: add_product.php?success=" . urlencode(t($message)));
         exit;
 
     } catch (Exception $e) {
-        // Удаление загруженного файла при ошибке
         if (isset($targetPath) && file_exists($targetPath)) {
             unlink($targetPath);
         }

@@ -1,6 +1,0 @@
-{
-    "admin":{"hash":"<?= password_hash('admin123', PASSWORD_DEFAULT)?>","role":"admin"},
-    "editor":{"hash":"<?= password_hash('editor123', PASSWORD_DEFAULT)?>","role":"editor"},
-    "user":{"hash":"<?= password_hash('user123', PASSWORD_DEFAULT)?>","role":"user"}
-  }
-  

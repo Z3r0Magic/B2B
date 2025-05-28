@@ -31,6 +31,15 @@ $categories = $pdo->query("SELECT * FROM categories")->fetchAll();
   <meta charset="UTF-8">
   <title><?= t('manage_products') ?></title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+ <style>
+    .actions-column {
+      white-space: nowrap;
+    }
+    .actions-column .btn {
+      margin-right: 5px;
+      margin-bottom: 5px;
+    }
+  </style>
 </head>
 <body>
   <?php include __DIR__ . '/../partials/navbar.php'; ?>
@@ -49,7 +58,7 @@ $categories = $pdo->query("SELECT * FROM categories")->fetchAll();
           <th><?= t('quantity_per_box') ?></th>
           <th><?= t('category') ?></th>
           <th><?= t('stock') ?></th>
-          <th><?= t('actions') ?></th>
+          <th class="actions-column"><?= t('actions') ?></th>
         </tr>
       </thead>
       <tbody>
@@ -58,12 +67,12 @@ $categories = $pdo->query("SELECT * FROM categories")->fetchAll();
             <td><?= $product['id'] ?></td>
             <td><?= htmlspecialchars($product['title']) ?></td>
             <td><?= htmlspecialchars($product['article']) ?></td>
-            <td>$<?= number_format($product['wholesale_price'], 2) ?></td>
-            <td>$<?= number_format($product['retail_price'], 2) ?></td>
+            <td><?= number_format($product['wholesale_price'], 2) ?> ₽</td>
+            <td><?= number_format($product['retail_price'], 2) ?> ₽</td>
             <td><?= $product['quantity_per_box'] ?></td>
             <td><?= htmlspecialchars($product['category_name']) ?></td>
             <td><?= htmlspecialchars($product['stock']) ?></td>
-            <td>
+            <td class="actions-column">
               <a href="?edit_product=<?= $product['id'] ?>" class="btn btn-warning btn-sm"><?= t('edit') ?></a>
               <a href="?delete_product=<?= $product['id'] ?>" class="btn btn-danger btn-sm"><?= t('delete') ?></a>
             </td>
@@ -83,6 +92,7 @@ $categories = $pdo->query("SELECT * FROM categories")->fetchAll();
     <h3 class="mt-5"><?= t('edit_product') ?></h3>
     <form action="process_product.php" method="post" enctype="multipart/form-data">
         <input type="hidden" name="product_id" value="<?= $editProduct['id'] ?>">
+        <input type="hidden" name="old_image" value="<?= htmlspecialchars($editProduct['image_path']) ?>">
         
         <!-- Все поля формы -->
         <div class="mb-3">
@@ -180,11 +190,11 @@ $categories = $pdo->query("SELECT * FROM categories")->fetchAll();
         <div class="mb-3">
             <label class="form-label"><?= t('image') ?></label>
             <input type="file" name="image" class="form-control" accept="image/*">
-            <?php if ($editProduct['image_path']): ?>
+             <?php if ($editProduct['image_path']): ?>
                 <small class="text-muted">
                     <?= t('current_image') ?>: 
-                    <a href="../uploads/<?= $editProduct['image_path'] ?>" target="_blank">
-                        <?= $editProduct['image_path'] ?>
+                    <a href="../uploads/<?= htmlspecialchars($editProduct['image_path']) ?>" target="_blank">
+                        <?= htmlspecialchars($editProduct['image_path']) ?>
                     </a>
                 </small>
             <?php endif; ?>

@@ -48,10 +48,10 @@ if (!$product) {
         <p><?= t('description') ?>: <?= htmlspecialchars($product['description']) ?></p>
         <div class="row">
           <div class="col">
-            <p><?= t('wholesale_price') ?>: <span class="text-danger">$<?= number_format($product['wholesale_price'], 2) ?></span></p>
+            <p><?= t('wholesale_price') ?>: <span class="text-success"><?= number_format($product['wholesale_price'], 2) ?> ₽</span></p>
           </div>
           <div class="col">
-            <p><?= t('retail_price') ?>: <span class="text-success">$<?= number_format($product['retail_price'], 2) ?></span></p>
+            <p><?= t('retail_price') ?>: <span class="text-danger"><?= number_format($product['retail_price'], 2) ?> ₽</span></p>
           </div>
         </div>
         <form action="cart_add.php" method="post">

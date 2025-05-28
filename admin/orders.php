@@ -56,7 +56,7 @@ $orders = $stmt->fetchAll();
                             <td><?= $order['id'] ?></td>
                             <td><?= htmlspecialchars($order['customer']) ?></td>
                             <td><?= date('d.m.Y H:i', strtotime($order['order_date'])) ?></td>
-                            <td>$<?= number_format($order['total_amount'], 2) ?></td>
+                            <td>    <?= number_format($order['total_amount'], 2) ?> ₽</td>
                             <td>
                                 <form action="update_order_status.php" method="post">
                                     <input type="hidden" name="order_id" value="<?= $order['id'] ?>">
