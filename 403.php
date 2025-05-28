@@ -23,7 +23,7 @@ http_response_code(403);
     </style>
 </head>
 <body>
-    <?php include 'partials/navbar.php'; ?>
+    <?php include 'includes/navbar.php'; ?>
     
     <div class="container container-403">
         <div class="error-code">403</div>

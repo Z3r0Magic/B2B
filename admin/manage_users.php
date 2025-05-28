@@ -48,7 +48,7 @@ $users = $stmt->fetchAll();
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-  <?php include __DIR__ . '/../partials/navbar.php'; ?> 
+  <?php include __DIR__ . '/../includes/navbar.php'; ?> 
   <div class="container mt-5">
     <h2><?= t('manage_users') ?></h2>
     

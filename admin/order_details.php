@@ -31,6 +31,7 @@ $stmt = $pdo->prepare("
         products.title,
         products.article,
         products.stock,
+        products.quantity_per_box,
         categories.name AS category_name,
         order_items.quantity,
         order_items.price
@@ -62,7 +63,7 @@ $items = $stmt->fetchAll();
     </style>
 </head>
 <body class="bg-light">
-    <?php include __DIR__ . '/../partials/navbar.php'; ?>
+    <?php include __DIR__ . '/../includes/navbar.php'; ?>
     
     <div class="container mt-4 mb-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
@@ -136,7 +137,7 @@ $items = $stmt->fetchAll();
                                 <td><?= htmlspecialchars($item['article']) ?></td>
                                 <td><?= htmlspecialchars($item['category_name']) ?></td> 
                                 <td class="text-center"><?= $item['quantity'] ?></td>
-                                <td class="text-center"><?= $item['stock'] ?></td>
+                                <td class="text-center"><?=   $item['stock']/$item['quantity_per_box']  ?></td>
                                 <td class="text-end"><?= number_format($item['price'], 2) ?> ₽</td>
                                 <td class="text-end fw-bold"><?= number_format($item['price'] * $item['quantity'], 2) ?> ₽</td>
                             </tr>

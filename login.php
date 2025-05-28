@@ -10,7 +10,7 @@ require 'includes/auth.php';
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<?php include 'partials/navbar.php'; ?>
+<?php include 'includes/navbar.php'; ?>
 <div class="container mt-5">
   <?php if (isset($_SESSION['error'])): ?>
     <div class="alert alert-danger">
@@ -22,7 +22,7 @@ require 'includes/auth.php';
   <form action="login_process.php" method="post" class="mt-4">
     <div class="mb-3">
       <label for="email" class="form-label"><?= t('email') ?></label>
-      <input type="text" class="form-control" id="email" name="username" required> <!-- Исправлено name="username" -->
+      <input type="text" class="form-control" id="email" name="username" required> 
     </div>
     <div class="mb-3">
       <label for="password" class="form-label"><?= t('password') ?></label>

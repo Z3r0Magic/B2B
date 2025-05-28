@@ -42,7 +42,7 @@ $categories = $pdo->query("SELECT * FROM categories")->fetchAll();
   </style>
 </head>
 <body>
-  <?php include __DIR__ . '/../partials/navbar.php'; ?>
+  <?php include __DIR__ . '/../includes/navbar.php'; ?>
   <div class="container mt-5">
     <h2><?= t('manage_products') ?></h2>
     

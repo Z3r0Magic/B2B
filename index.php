@@ -53,7 +53,7 @@ require_once 'includes/db.php';
   </style>
 </head>
 <body>
-  <?php include 'partials/navbar.php'; ?>
+  <?php include 'includes/navbar.php'; ?>
 
   <!-- Hero Section -->
   <section class="hero-section">
@@ -67,7 +67,7 @@ require_once 'includes/db.php';
     </div>
   </section>
 
-  <!-- Features Section -->
+  <!-- первая секция -->
   <section class="container mb-5">
     <div class="row g-4">
       <div class="col-md-4">
@@ -100,7 +100,7 @@ require_once 'includes/db.php';
     </div>
   </section>
 
-  <!-- About Section -->
+  <!-- вторая секция -->
   <section class="container mb-5">
     <div class="row align-items-center">
       <div class="col-md-6">
@@ -115,7 +115,7 @@ require_once 'includes/db.php';
     </div>
   </section>
 
-  <!-- Footer -->
+  <!-- навбар низ -->
   <footer id="contact">
     <div class="container">
       <div class="row">

@@ -151,7 +151,7 @@ $chart_data = $pdo->query("
   </style>
 </head>
 <body>
-  <?php include __DIR__ . '/../partials/navbar.php'; ?>
+  <?php include __DIR__ . '/../includes/navbar.php'; ?>
 
   <div class="container-fluid mt-5">
     <div class="row mb-4">

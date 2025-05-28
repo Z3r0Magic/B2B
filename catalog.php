@@ -94,7 +94,7 @@ $categories = $pdo->query("SELECT * FROM categories")->fetchAll();
   </style>
 </head>
 <body>
-  <?php include 'partials/navbar.php'; ?>
+  <?php include 'includes/navbar.php'; ?>
   
   <div class="container mt-5">
     <h1 class="mb-4"><?= t('catalog') ?></h1>
