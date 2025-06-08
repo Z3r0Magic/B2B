@@ -1,8 +1,8 @@
 <?php
 $host = 'localhost';
 $dbname = 'b2b_store';
-$user = 'root'; // Логин OpenServer по умолчанию
-$pass = ''; // Пароль OpenServer по умолчанию
+$user = 'root'; // Логин по умолчанию
+$pass = ''; // Пароль по умолчанию
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);

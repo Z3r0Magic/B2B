@@ -1,12 +1,11 @@
 <?php
-session_start(); // Добавьте эту строку в начало файла
+session_start();
 require_once 'db.php';
 
 // Авторизация
 function login($username, $password) {
     global $pdo;
     
-    // Используйте имя поля, которое хранится в БД (username или email)
     $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?"); 
     $stmt->execute([$username]);
     $user = $stmt->fetch();

@@ -12,7 +12,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'user') {
     exit;
 }
 
-// Исправленный SQL-запрос (добавлена запятая)
+//  SQL-запрос 
 $stmt = $pdo->prepare("
     SELECT 
         cart.id,
@@ -22,7 +22,7 @@ $stmt = $pdo->prepare("
         products.wholesale_price,
         products.image_path,
         products.stock,
-        products.quantity_per_box, -- ЗАПЯТАЯ ДОБАВЛЕНА
+        products.quantity_per_box, 
         products.article
     FROM cart
     LEFT JOIN products 
@@ -77,7 +77,7 @@ $cartItems = $stmt->fetchAll();
                   </p>
                   <p class="mb-1">
                     <strong><?= t('article') ?>:</strong> 
-                    <?= htmlspecialchars($item['article'] ?? 'N/A') ?> <!-- Убрано ₽, добавлена проверка -->
+                    <?= htmlspecialchars($item['article'] ?? 'N/A') ?> 
                   </p>
                   <p class="mb-1">
                     <strong><?= t('quantity') ?>:</strong> 

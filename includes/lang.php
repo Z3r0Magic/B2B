@@ -270,8 +270,10 @@ $translations = [
         'back_to_orders' => 'Назад к заказам', 
         'total_order_amount' => 'Общая сумма заказа ',  
         'order_information'=> 'Информация о заказе',
-        
-        
+        'product_added' => 'Продукт добавлен',
+        'total_items' => 'Всего предметов',
+        'total_sum' => 'Итоговая сумма',
+        'boxes'=> 'коробки',
         
         
 

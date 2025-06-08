@@ -6,6 +6,8 @@ require_once 'includes/db.php';
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'user') {
     header('Location: login.php');
     exit;
+
+
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

@@ -100,7 +100,6 @@ $categories = $pdo->query("SELECT * FROM categories")->fetchAll();
     <h1 class="mb-4"><?= t('catalog') ?></h1>
     
     <!-- Фильтры -->
-    <!-- В секции фильтров измените разметку на эту: -->
 <div class="filter-section">
     <form method="GET" class="row g-3 align-items-center">
         <div class="col-12 col-md-3">
@@ -124,7 +123,7 @@ $categories = $pdo->query("SELECT * FROM categories")->fetchAll();
         <div class="col-6 col-md-2">
             <select name="stock" class="form-select">
                 <option value=""><?= t('all_stock') ?></option>
-                <option value="30-50" <?= $stock_range == '30-50' ? 'selected' : '' ?>>
+                <option value="1-50" <?= $stock_range == '1-50' ? 'selected' : '' ?>>
                     30-50 <?= t('items') ?>
                 </option>
                 <option value="50-100" <?= $stock_range == '50-100' ? 'selected' : '' ?>>
